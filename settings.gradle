@@ -11,4 +11,4 @@ include 'api-gateway'
 include 'user-service'      // JPA, Spring Security 학습
 include 'order-service'     // Redis, Kafka/RabbitMQ 학습
 include 'product-service'   // MongoDB, Elasticsearch 학습
-include 'test-service'      // 기능 테스트 학습
+include 'prototype-service'      // 기능 테스트 학습
