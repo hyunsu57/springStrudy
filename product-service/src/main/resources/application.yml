@@ -1,0 +1,38 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: product-service
+
+  # MongoDB 설정
+  data:
+    mongodb:
+      # 학습용: Embedded MongoDB 사용
+      # 실제 환경에서는 외부 MongoDB 서버 연결
+      # host: localhost
+      # port: 27017
+      # database: productdb
+      # username: admin
+      # password: password
+
+      # Embedded MongoDB (테스트용 - 자동 시작)
+      # build.gradle의 embedded mongo 의존성 필요
+      database: productdb
+
+# Eureka Client 설정
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+# 로깅 설정
+logging:
+  level:
+    com.study.product: DEBUG
+    org.springframework.data.mongodb: DEBUG

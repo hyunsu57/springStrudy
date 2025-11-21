@@ -1,0 +1,14 @@
+rootProject.name = 'SpringStudy'
+
+// 공통 모듈
+include 'common'
+
+// 인프라 서비스
+include 'eureka-server'
+include 'api-gateway'
+
+// 비즈니스 서비스 (주제별 학습)
+include 'user-service'      // JPA, Spring Security 학습
+include 'order-service'     // Redis, Kafka/RabbitMQ 학습
+include 'product-service'   // MongoDB, Elasticsearch 학습
+include 'test-service'      // 기능 테스트 학습

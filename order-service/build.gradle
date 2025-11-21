@@ -1,0 +1,27 @@
+dependencies {
+    implementation project(':common')
+
+    // Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Redis (핵심 학습 주제)
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Kafka (핵심 학습 주제)
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Database (H2 - 학습용)
+    runtimeOnly 'com.h2database:h2'
+
+    // Eureka Client
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    // Test
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+}

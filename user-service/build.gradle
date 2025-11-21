@@ -1,0 +1,29 @@
+dependencies {
+    implementation project(':common')
+
+    // Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // JPA (핵심 학습 주제)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Security (핵심 학습 주제)
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // JWT 토큰 처리
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Database (H2 - 학습용)
+    runtimeOnly 'com.h2database:h2'
+
+    // Eureka Client
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    // Test
+    testImplementation 'org.springframework.security:spring-security-test'
+}
