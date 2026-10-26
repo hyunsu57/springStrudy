@@ -82,3 +82,9 @@
 - 미수행·한계: IntelliJ 재가져오기는 사용자 몫(.idea/misc.xml 이 pom.xml 을 가리킴). 소스·테스트 코드는 변경 없음
 - 다음 행동: IntelliJ 에서 Gradle 프로젝트로 다시 열고 `gradlew.bat test` 확인 후 README "소스 읽는 순서"대로 학습 계속
 - 관련 문서: itembay `분석/공부/spring/[학습] Spring_AI_실습_Java와_Boot_버전_선택.md` "Gradle 전환" 절
+
+### 2026-10-26 16:45 · Claude · 원격 저장소 연결과 첫 푸시
+- 요청: 여기까지 커밋·푸시. 프로젝트는 기존 GitHub 저장소 hyunsu57/springStrudy 의 소스를 모두 지우고 그 자리에 넣기(사용자 선택: 옛 이력 4개 커밋 유지, 브랜치 master 유지)
+- 변경: `origin` = https://github.com/hyunsu57/springStrudy.git. 옛 master(edb45d0) 위에 "기존 소스 제거 + 현재 프로젝트" 커밋(b55fe41, 삭제 50·추가 34·수정 8)을 쌓아 푸시. 프로젝트 파일 내용은 변경 없음
+- 검증(실측): 푸시 후 로컬 master = origin/master. 추적 파일 43개에 config/·.env.local·옛 소스 없음 확인. itembay 저장소의 오늘 문서 변경도 f135215 로 main 에 푸시
+- 다음 행동: IntelliJ 에서 Gradle 프로젝트로 다시 열기 → `gradlew.bat test` → README "소스 읽는 순서"대로 학습
