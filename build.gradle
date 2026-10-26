@@ -1,56 +1,55 @@
+// 빌드 스크립트(Groovy DSL). Maven 의 pom.xml 을 그대로 옮긴 것이며, 각 블록이 pom 의 어느 부분에 해당하는지 적어 둔다.
+
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.3.5' apply false
-    id 'io.spring.dependency-management' version '1.1.7' apply false
+	// pom 의 <parent> spring-boot-starter-parent 에 해당. 버전 관리(BOM)와 bootJar·bootRun 작업을 제공한다.
+	id 'java'
+	id 'org.springframework.boot' version '4.2.0-SNAPSHOT'
 }
 
-ext {
-    set('springCloudVersion', "2023.0.3")
+// pom 의 <groupId>/<version>
+group = 'dev.tumbling'
+version = '0.0.1-SNAPSHOT'
+description = 'Spring AI learning lab'
+
+java {
+	// pom 의 <java.version>25 에 해당. 툴체인은 "이 버전의 JDK 로 컴파일·테스트하라"는 선언이다.
+	// Gradle 자체는 JAVA_HOME 의 JDK 로 실행된다(Gradle 9.8 은 JDK 17~27 에서 실행 가능. PATH 의 Java 8 로는 실행 불가,
+	// 이 PC 의 전역 JAVA_HOME 은 JDK 21 이라 그대로도 뜬다). 컴파일에 쓸 Java 25 는 설치된 JDK 중에서 자동 감지하고,
+	// 못 찾으면 gradle.properties 의 org.gradle.java.installations.paths 로 알려 준다.
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(25)
+	}
 }
 
-allprojects {
-    group = 'com.study'
-    version = '0.0.1-SNAPSHOT'
-
-    repositories {
-        mavenCentral()
-    }
+repositories {
+	// pom 의 <repositories>. 릴리스는 Maven Central, Boot 스냅샷은 Spring 스냅샷 저장소에서 받는다.
+	// snapshotsOnly() 는 pom 의 <releases><enabled>false 에 해당: 스냅샷 저장소에서는 스냅샷만 찾는다.
+	mavenCentral()
+	maven {
+		url = 'https://repo.spring.io/snapshot'
+		mavenContent { snapshotsOnly() }
+	}
 }
 
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
+dependencies {
+	// pom 의 <dependencyManagement>. Gradle 은 별도 플러그인 없이 platform() 으로 BOM(버전 목록)을 가져온다.
+	// Boot BOM 은 Boot 플러그인이 좌표를 제공하고, Spring AI BOM 2.0.2 는 사용자 선택 A 그대로다.
+	implementation platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+	implementation platform('org.springframework.ai:spring-ai-bom:2.0.2')
 
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
-        }
-    }
+	// pom 의 compile 범위 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// Anthropic(Claude) 스타터. 자동 설정은 application.properties 에서 끄고 AnthropicChatModelProvider 가 모델을 직접 만든다.
+	implementation 'org.springframework.ai:spring-ai-starter-model-anthropic'
 
-    configurations {
-        compileOnly {
-            extendsFrom annotationProcessor
-        }
-    }
+	// pom 의 test 범위 의존성
+	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
 
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-        }
-    }
-
-    dependencies {
-        // 공통 의존성
-        compileOnly 'org.projectlombok:lombok'
-        annotationProcessor 'org.projectlombok:lombok'
-
-        // 테스트
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
-        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    }
-
-    tasks.named('test') {
-        useJUnitPlatform()
-    }
+tasks.named('test') {
+	// JUnit 5(Jupiter) 로 테스트를 실행한다. Maven 의 surefire 가 자동으로 하던 일을 Gradle 은 명시해야 한다.
+	useJUnitPlatform()
 }
